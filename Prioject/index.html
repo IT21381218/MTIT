@@ -21,7 +21,7 @@
     <!-- Simple Mobile UI -->
     <div class="mobile-ui">
         <div class="status-bar">
-            <div>Markers: <span id="markers-count">0</span>/5</div>
+            <div>Markers: <span id="markers-count">0</span>/4</div>
         </div>
         <div class="button-container">
             <button id="reload-btn">Reload</button>
@@ -29,6 +29,7 @@
             <button id="markers-btn">View Markers</button>
             <button id="sound-toggle">🔊 Sound On</button>
             <button id="camera-settings">📷 Camera</button>
+            <button id="fullscreen-btn">📺 Full Screen</button>
         </div>
     </div>
 
@@ -176,7 +177,7 @@
         </a-marker>
 
         <!-- MARKER 5 - Alien -->
-        <a-marker type="pattern" url="markers/pattern-marker5.patt" id="marker4" emitevents="true" smooth="true" smoothCount="5" smoothTolerance="0.01" smoothThreshold="2">
+        <a-marker type="pattern" url="markers/pattern-marker5.patt" id="marker5" emitevents="true" smooth="true" smoothCount="5" smoothTolerance="0.01" smoothThreshold="2">
             <!-- Fallback shape if model doesn't load -->
             <a-box position="0 0.5 0" color="yellow" scale="0 0 0" class="fallback"></a-box>
             <!-- 3D model -->
@@ -186,7 +187,7 @@
                 scale="0 0 0"
                 gltf-model="#alien-model"
                 class="model"
-                sound="src: #song4; autoplay: false; loop: true; volume: 0.5;">
+                sound="src: #song5; autoplay: false; loop: true; volume: 0.5;">
             </a-entity>
         </a-marker>
         
@@ -202,6 +203,62 @@
         document.getElementById('markers-btn').addEventListener('click', function() {
             window.location.href = 'markers.html';
         });
+
+        // Full screen functionality
+        const fullscreenBtn = document.getElementById('fullscreen-btn');
+        
+        fullscreenBtn.addEventListener('click', function() {
+            toggleFullScreen();
+        });
+        
+        // Function to toggle full screen mode
+        function toggleFullScreen() {
+            if (!document.fullscreenElement && 
+                !document.mozFullScreenElement && 
+                !document.webkitFullscreenElement && 
+                !document.msFullscreenElement) {
+                // Enter fullscreen
+                if (document.documentElement.requestFullscreen) {
+                    document.documentElement.requestFullscreen();
+                } else if (document.documentElement.msRequestFullscreen) {
+                    document.documentElement.msRequestFullscreen();
+                } else if (document.documentElement.mozRequestFullScreen) {
+                    document.documentElement.mozRequestFullScreen();
+                } else if (document.documentElement.webkitRequestFullscreen) {
+                    document.documentElement.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+                }
+                fullscreenBtn.textContent = '🔍 Exit Full';
+            } else {
+                // Exit fullscreen
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.msExitFullscreen) {
+                    document.msExitFullscreen();
+                } else if (document.mozCancelFullScreen) {
+                    document.mozCancelFullScreen();
+                } else if (document.webkitExitFullscreen) {
+                    document.webkitExitFullscreen();
+                }
+                fullscreenBtn.textContent = '📺 Full Screen';
+            }
+        }
+        
+        // Listen for fullscreen change events to update button text
+        document.addEventListener('fullscreenchange', updateFullscreenButtonText);
+        document.addEventListener('webkitfullscreenchange', updateFullscreenButtonText);
+        document.addEventListener('mozfullscreenchange', updateFullscreenButtonText);
+        document.addEventListener('MSFullscreenChange', updateFullscreenButtonText);
+        
+        function updateFullscreenButtonText() {
+            if (document.fullscreenElement || 
+                document.webkitFullscreenElement || 
+                document.mozFullScreenElement || 
+                document.msFullscreenElement) {
+                fullscreenBtn.textContent = '🔍 Exit Full';
+            } else {
+                fullscreenBtn.textContent = '📺 Full Screen';
+            }
+        }
     </script>
 </body>
 </html>
