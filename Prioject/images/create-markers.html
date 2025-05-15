@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create AR.js Markers</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        
+        h1, h2 {
+            color: #0088ff;
+        }
+        
+        .marker-generator {
+            margin: 30px 0;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+        }
+        
+        .marker-preview {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .marker {
+            border: 1px solid #ccc;
+            padding: 15px;
+            border-radius: 10px;
+            width: calc(50% - 20px);
+            box-sizing: border-box;
+            text-align: center;
+        }
+        
+        .marker canvas {
+            width: 100%;
+            height: auto;
+            display: block;
+            margin-bottom: 10px;
+            background-color: white;
+        }
+        
+        button {
+            background-color: #0088ff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        
+        @media (max-width: 600px) {
+            .marker {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Create AR.js Markers</h1>
+    
+    <div class="marker-generator">
+        <h2>Default Markers</h2>
+        <p>These are simple, high-contrast markers that work well with AR.js. Click the buttons to download them.</p>
+        
+        <div class="marker-preview">
+            <div class="marker">
+                <h3>Marker 1: Palm Tree</h3>
+                <canvas id="marker1" width="512" height="512"></canvas>
+                <button onclick="downloadMarker('marker1', 'palm-tree-marker.png')">Download</button>
+            </div>
+            
+            <div class="marker">
+                <h3>Marker 2: Beach Chair</h3>
+                <canvas id="marker2" width="512" height="512"></canvas>
+                <button onclick="downloadMarker('marker2', 'beach-chair-marker.png')">Download</button>
+            </div>
+            
+            <div class="marker">
+                <h3>Marker 3: Beach Ball</h3>
+                <canvas id="marker3" width="512" height="512"></canvas>
+                <button onclick="downloadMarker('marker3', 'beach-ball-marker.png')">Download</button>
+            </div>
+            
+            <div class="marker">
+                <h3>Marker 4: Surfboard</h3>
+                <canvas id="marker4" width="512" height="512"></canvas>
+                <button onclick="downloadMarker('marker4', 'surfboard-marker.png')">Download</button>
+            </div>
+        </div>
+        
+        <p><a href="../markers.html">Back to Markers Page</a></p>
+    </div>
+    
+    <script>
+        // Draw markers when page loads
+        window.onload = function() {
+            drawMarker('marker1', 'P');
+            drawMarker('marker2', 'C');
+            drawMarker('marker3', 'B');
+            drawMarker('marker4', 'S');
+        };
+        
+        // Draw a simple marker with a letter
+        function drawMarker(canvasId, letter) {
+            const canvas = document.getElementById(canvasId);
+            const ctx = canvas.getContext('2d');
+            const size = canvas.width;
+            
+            // Draw white background
+            ctx.fillStyle = 'white';
+            ctx.fillRect(0, 0, size, size);
+            
+            // Draw black border (25% of width)
+            const borderWidth = size * 0.25;
+            ctx.fillStyle = 'black';
+            ctx.fillRect(0, 0, size, size);
+            ctx.fillStyle = 'white';
+            ctx.fillRect(borderWidth, borderWidth, size - 2 * borderWidth, size - 2 * borderWidth);
+            
+            // Draw letter
+            ctx.fillStyle = 'black';
+            ctx.font = `bold ${size * 0.4}px Arial`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(letter, size / 2, size / 2);
+            
+            // Draw pattern elements for better detection
+            const patternSize = size * 0.1;
+            
+            // Top left pattern
+            ctx.fillRect(borderWidth * 1.2, borderWidth * 1.2, patternSize, patternSize);
+            
+            // Top right pattern
+            ctx.fillRect(size - borderWidth * 1.2 - patternSize, borderWidth * 1.2, patternSize, patternSize);
+            
+            // Bottom left pattern
+            ctx.fillRect(borderWidth * 1.2, size - borderWidth * 1.2 - patternSize, patternSize, patternSize);
+            
+            // Bottom right pattern
+            ctx.fillRect(size - borderWidth * 1.2 - patternSize, size - borderWidth * 1.2 - patternSize, patternSize, patternSize);
+        }
+        
+        // Download marker as PNG
+        function downloadMarker(canvasId, filename) {
+            const canvas = document.getElementById(canvasId);
+            const link = document.createElement('a');
+            link.download = filename;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        
+        h1, h2 {
+            color: #0088ff;
+        }
+        
+        .audio-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .audio-item {
+            border: 1px solid #ccc;
+            padding: 15px;
+            border-radius: 10px;
+        }
+        
+        .audio-item h3 {
+            margin-top: 0;
+        }
+        
+        button {
+            background-color: #0088ff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            margin-right: 10px;
+        }
+        
+        .back-button {
+            display: inline-block;
+            background-color: #0088ff;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Audio Test</h1>
+    <p>This page allows you to test if your audio files are working correctly.</p>
+    
+    <div class="audio-container">
+        <div class="audio-item">
+            <h3>Song 1 (Sun)</h3>
+            <audio id="song1" src="sounds/song1.mp3" controls></audio>
+            <div>
+                <button onclick="document.getElementById('song1').play()">Play</button>
+                <button onclick="document.getElementById('song1').pause()">Pause</button>
+            </div>
+        </div>
+        
+        <div class="audio-item">
+            <h3>Song 2 (Alien Ship)</h3>
+            <audio id="song2" src="sounds/song2.mp3" controls></audio>
+            <div>
+                <button onclick="document.getElementById('song2').play()">Play</button>
+                <button onclick="document.getElementById('song2').pause()">Pause</button>
+            </div>
+        </div>
+        
+        <div class="audio-item">
+            <h3>Song 3 (International Space Station)</h3>
+            <audio id="song3" src="sounds/song3.mp3" controls></audio>
+            <div>
+                <button onclick="document.getElementById('song3').play()">Play</button>
+                <button onclick="document.getElementById('song3').pause()">Pause</button>
+            </div>
+        </div>
+        
+        <div class="audio-item">
+            <h3>Song 4 (Astronaut)</h3>
+            <audio id="song4" src="sounds/song4.mp3" controls></audio>
+            <div>
+                <button onclick="document.getElementById('song4').play()">Play</button>
+                <button onclick="document.getElementById('song4').pause()">Pause</button>
+            </div>
+        </div>
+
+        <div class="audio-item">
+            <h3>Song 5 (Alien)</h3>
+            <audio id="song5" src="sounds/song5.mp3" controls></audio>
+            <div>
+                <button onclick="document.getElementById('song5').play()">Play</button>
+                <button onclick="document.getElementById('song5').pause()">Pause</button>
+            </div>
+        </div>
+    </div>
+    
+    <h2>Troubleshooting</h2>
+    <p>If you can't hear the audio:</p>
+    <ul>
+        <li>Make sure your device's volume is turned up</li>
+        <li>Check that the audio files are in the correct location (sounds folder)</li>
+        <li>Try using different audio formats (MP3, WAV, OGG) if one doesn't work</li>
+        <li>Some mobile browsers require user interaction before playing audio</li>
+    </ul>
+    
+    <a href="index.html" class="back-button">Back to AR Experience</a>
+    
+    <script>
+        // Log audio loading status
+        document.addEventListener('DOMContentLoaded', function() {
+            const audioElements = document.querySelectorAll('audio');
+            
+            audioElements.forEach((audio) => {
+                audio.addEventListener('canplaythrough', function() {
+                    console.log(`Audio loaded: ${audio.id}`);
+                });
+                
+                audio.addEventListener('error', function(e) {
+                    console.error(`Error loading audio: ${audio.id}`, e);
+                });
+            });
+        });
+    </script>
+</body>
+</html>

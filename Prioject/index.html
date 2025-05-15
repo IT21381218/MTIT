@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <title>Space AR Experience</title>
+    <!-- Import A-Frame and AR.js libraries -->
+    <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
+    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+    <script src="https://raw.githack.com/donmccurdy/aframe-extras/master/dist/aframe-extras.loaders.min.js"></script>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Add camera quality component -->
+    <script src="camera-quality.js"></script>
+</head>
+<body>
+    <!-- Loading screen -->
+    <div class="arjs-loader">
+        <div>Loading Space AR Experience... Please wait</div>
+    </div>
+    
+    <!-- Simple Mobile UI -->
+    <div class="mobile-ui">
+        <div class="status-bar">
+            <div>Markers: <span id="markers-count">0</span>/4</div>
+        </div>
+        <div class="button-container">
+            <button id="reload-btn">Reload</button>
+            <button id="help-btn">Help</button>
+            <button id="markers-btn">View Markers</button>
+            <button id="sound-toggle">🔊 Sound On</button>
+            <button id="camera-settings">📷 Camera</button>
+        </div>
+    </div>
+
+    <!-- Help Panel -->
+    <div id="help-panel" class="help-panel">
+        <div class="help-content">
+            <h3>How to Use</h3>
+            <p>1. Print the markers clearly</p>
+            <p>2. Ensure good lighting</p>
+            <p>3. Hold camera 1-2 feet from marker</p>
+            <p>4. Keep the marker in view</p>
+            <p>5. Tap anywhere on screen to focus camera</p>
+            <button id="close-help">Close</button>
+        </div>
+    </div>
+
+    <!-- Camera Settings Panel -->
+    <div id="camera-settings-panel" class="settings-panel">
+        <div class="settings-content">
+            <h3>Camera Settings</h3>
+            <div class="setting-item">
+                <label for="camera-quality">Camera Quality:</label>
+                <select id="camera-quality">
+                    <option value="high">High (HD)</option>
+                    <option value="medium" selected>Medium</option>
+                    <option value="low">Low (Better Performance)</option>
+                </select>
+            </div>
+            <div class="setting-item">
+                <label for="camera-brightness">Brightness:</label>
+                <input type="range" id="camera-brightness" min="0" max="200" value="100">
+            </div>
+            <div class="setting-item">
+                <label for="camera-contrast">Contrast:</label>
+                <input type="range" id="camera-contrast" min="0" max="200" value="100">
+            </div>
+            <div class="setting-item">
+                <label for="detection-sensitivity">Detection Sensitivity:</label>
+                <input type="range" id="detection-sensitivity" min="0" max="100" value="50">
+            </div>
+            <div class="setting-buttons">
+                <button id="apply-camera-settings">Apply</button>
+                <button id="close-camera-settings">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Camera Focus Indicator -->
+    <div id="focus-indicator" class="focus-indicator"></div>
+
+    <!-- A-Frame Scene -->
+    <a-scene
+        embedded
+        arjs="sourceType: webcam; 
+              debugUIEnabled: false; 
+              detectionMode: mono; 
+              maxDetectionRate: 60;
+              canvasWidth: 1920; 
+              canvasHeight: 1080;
+              patternRatio: 0.75;"
+        renderer="antialias: true; alpha: true; precision: high;"
+        vr-mode-ui="enabled: false"
+        camera-quality>
+        
+        <!-- Assets preloading -->
+        <a-assets timeout="10000">
+            <!-- 3D Models -->
+
+            <a-asset-item id="sun-model" src="models/model 1 - sun.glb"></a-asset-item>
+            <a-asset-item id="ship-model" src="models/model 2 - ship.glb"></a-asset-item>
+            <a-asset-item id="station-model" src="models/model 3 - station.glb"></a-asset-item>
+            <a-asset-item id="astronaut-model" src="models/model 4 - astronaut.glb"></a-asset-item>
+            <a-asset-item id="alien-model" src="models/model 5 - alien.glb"></a-asset-item>
+            
+            <!-- Audio Files -->
+            <audio id="song1" src="sounds/song1.mp3" preload="auto"></audio>
+            <audio id="song2" src="sounds/song2.mp3" preload="auto"></audio>
+            <audio id="song3" src="sounds/song3.mp3" preload="auto"></audio>
+            <audio id="song4" src="sounds/song4.mp3" preload="auto"></audio>
+            <audio id="song5" src="sounds/song5.mp3" preload="auto"></audio>
+            <audio id="success-sound" src="sounds/success.mp3" preload="auto"></audio>
+        </a-assets>
+        
+        <!-- Camera -->
+        <a-entity camera></a-entity>
+        
+        <!-- MARKER 1 - Sun -->
+        <a-marker type="pattern" url="markers/pattern-marker1.patt" id="marker1" emitevents="true" smooth="true" smoothCount="5" smoothTolerance="0.01" smoothThreshold="2">
+            <!-- Fallback shape if model doesn't load -->
+            <a-box position="0 0.5 0" color="red" scale="0 0 0" class="fallback"></a-box>
+            <!-- 3D model -->
+            <a-entity 
+                position="0 0 0"
+                rotation="0 0 0"
+                scale="0 0 0"
+                gltf-model="#sun-model"
+                class="model"
+                sound="src: #song1; autoplay: false; loop: true; volume: 0.5;">
+            </a-entity>
+        </a-marker>
+        
+        <!-- MARKER 2 - Ship -->
+        <a-marker type="pattern" url="markers/pattern-marker2.patt" id="marker2" emitevents="true" smooth="true" smoothCount="5" smoothTolerance="0.01" smoothThreshold="2">
+            <!-- Fallback shape if model doesn't load -->
+            <a-sphere position="0 0.5 0" color="blue" scale="0 0 0" class="fallback"></a-sphere>
+            <!-- 3D model -->
+            <a-entity 
+                position="0 0 0"
+                rotation="0 0 0"
+                scale="0 0 0"
+                gltf-model="#ship-model"
+                class="model"
+                sound="src: #song2; autoplay: false; loop: true; volume: 0.5;">
+            </a-entity>
+        </a-marker>
+        
+        <!-- MARKER 3 - Station -->
+        <a-marker type="pattern" url="markers/pattern-marker3.patt" id="marker3" emitevents="true" smooth="true" smoothCount="5" smoothTolerance="0.01" smoothThreshold="2">
+            <!-- Fallback shape if model doesn't load -->
+            <a-sphere position="0 0.5 0" color="green" scale="0 0 0" class="fallback"></a-sphere>
+            <!-- 3D model -->
+            <a-entity 
+                position="0 0 0"
+                rotation="0 0 0"
+                scale="0 0 0"
+                gltf-model="#station-model"
+                class="model"
+                sound="src: #song3; autoplay: false; loop: true; volume: 0.5;">
+            </a-entity>
+        </a-marker>
+        
+        <!-- MARKER 4 - Astronaut -->
+        <a-marker type="pattern" url="markers/pattern-marker4.patt" id="marker4" emitevents="true" smooth="true" smoothCount="5" smoothTolerance="0.01" smoothThreshold="2">
+            <!-- Fallback shape if model doesn't load -->
+            <a-box position="0 0.5 0" color="yellow" scale="0 0 0" class="fallback"></a-box>
+            <!-- 3D model -->
+            <a-entity 
+                position="0 0 0"
+                rotation="0 0 0"
+                scale="0 0 0"
+                gltf-model="#astronaut-model"
+                class="model"
+                sound="src: #song4; autoplay: false; loop: true; volume: 0.5;">
+            </a-entity>
+        </a-marker>
+
+        <!-- MARKER 5 - Alien -->
+        <a-marker type="pattern" url="markers/pattern-marker5.patt" id="marker4" emitevents="true" smooth="true" smoothCount="5" smoothTolerance="0.01" smoothThreshold="2">
+            <!-- Fallback shape if model doesn't load -->
+            <a-box position="0 0.5 0" color="yellow" scale="0 0 0" class="fallback"></a-box>
+            <!-- 3D model -->
+            <a-entity 
+                position="0 0 0"
+                rotation="0 0 0"
+                scale="0 0 0"
+                gltf-model="#alien-model"
+                class="model"
+                sound="src: #song4; autoplay: false; loop: true; volume: 0.5;">
+            </a-entity>
+        </a-marker>
+        
+        <!-- Hiro marker for testing -->
+        <a-marker preset="hiro" id="hiro-marker" emitevents="true">
+            <a-box position="0 0.5 0" color="purple" scale="1 1 1"></a-box>
+        </a-marker>
+    </a-scene>
+
+    <script src="enhanced-audio-script.js"></script>
+    <script>
+        // Add marker button functionality
+        document.getElementById('markers-btn').addEventListener('click', function() {
+            window.location.href = 'markers.html';
+        });
+    </script>
+</body>
+</html>

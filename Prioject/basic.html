@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Basic Space AR</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            font-family: Arial, sans-serif;
+        }
+        
+        .arjs-loader {
+            height: 100%;
+            width: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .arjs-loader div {
+            text-align: center;
+            font-size: 1.25em;
+            color: white;
+            padding: 20px;
+        }
+        
+        .ui-controls {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 10px;
+            display: flex;
+            justify-content: space-around;
+            z-index: 1000;
+        }
+        
+        button {
+            background-color: #0088ff;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        
+        .status-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            text-align: center;
+            padding: 10px;
+            z-index: 1000;
+        }
+        
+        .help-panel {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .help-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 80%;
+        }
+        
+        .help-content h3 {
+            margin-top: 0;
+            color: #0088ff;
+        }
+    </style>
+    <!-- Load the latest stable versions -->
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+</head>
+<body>
+    <!-- Loading screen -->
+    <div class="arjs-loader">
+        <div>Loading Beach AR Experience... Please wait</div>
+    </div>
+    
+    <!-- Status bar -->
+    <div class="status-bar" id="status">
+        Markers detected: <span id="markers-count">0</span>/5
+    </div>
+    
+    <!-- UI Controls -->
+    <div class="ui-controls">
+        <button id="reload-btn">Reload</button>
+        <button id="help-btn">Help</button>
+        <button id="markers-btn">View Markers</button>
+    </div>
+    
+    <!-- Help Panel -->
+    <div id="help-panel" class="help-panel">
+        <div class="help-content">
+            <h3>How to Use</h3>
+            <p>1. Print the markers from the "View Markers" page</p>
+            <p>2. Ensure good lighting in your environment</p>
+            <p>3. Hold your camera 1-2 feet from the marker</p>
+            <p>4. Keep the marker in view and wait for the 3D object to appear</p>
+            <button id="close-help">Close</button>
+        </div>
+    </div>
+    
+    <!-- A-Frame Scene -->
+    <a-scene
+        embedded
+        arjs="sourceType: webcam; debugUIEnabled: false; detectionMode: mono;"
+        renderer="antialias: true; alpha: true;"
+        vr-mode-ui="enabled: false">
+        
+        <!-- Camera -->
+        <a-entity camera></a-entity>
+        
+        <!-- MARKER 1 - Sun -->
+        <a-marker type="pattern" url="markers/pattern-marker1.patt" id="marker1">
+            <a-box position="0 0.5 0" color="red" scale="1 1 1"></a-box>
+        </a-marker>
+        
+        <!-- MARKER 2 - Alien Ship -->
+        <a-marker type="pattern" url="markers/pattern-marker2.patt" id="marker2">
+            <a-sphere position="0 0.5 0" color="blue" scale="1 1 1"></a-sphere>
+        </a-marker>
+        
+        <!-- MARKER 3 - International Space Station -->
+        <a-marker type="pattern" url="markers/pattern-marker3.patt" id="marker3">
+            <a-sphere position="0 0.5 0" color="green" scale="1 1 1"></a-sphere>
+        </a-marker>
+        
+        <!-- MARKER 4 - Astronaut -->
+        <a-marker type="pattern" url="markers/pattern-marker4.patt" id="marker4">
+            <a-box position="0 0.5 0" color="yellow" scale="1 1 1"></a-box>
+        </a-marker>
+        
+        <!-- MARKER 5 - Alien -->
+        <a-marker type="pattern" url="markers/pattern-marker5.patt" id="marker5">
+            <a-box position="0 0.5 0" color="yellow" scale="1 1 1"></a-box>
+        </a-marker>
+
+        <!-- Hiro marker for testing -->
+        <a-marker preset="hiro" id="hiro-marker">
+            <a-box position="0 0.5 0" color="purple" scale="1 1 1"></a-box>
+        </a-marker>
+    </a-scene>
+    
+    <script>
+        // Simple script to handle loading and basic functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get elements
+            const loader = document.querySelector('.arjs-loader');
+            const markersCountElement = document.getElementById('markers-count');
+            const reloadBtn = document.getElementById('reload-btn');
+            const helpBtn = document.getElementById('help-btn');
+            const markersBtn = document.getElementById('markers-btn');
+            const helpPanel = document.getElementById('help-panel');
+            const closeHelpBtn = document.getElementById('close-help');
+            
+            // Set timeout to hide loader even if scene doesn't load
+            setTimeout(function() {
+                if (loader.style.display !== 'none') {
+                    loader.style.display = 'none';
+                    alert('Loading timed out. Please check your camera permissions and try again.');
+                }
+            }, 8000);
+            
+            // Reload button
+            reloadBtn.addEventListener('click', function() {
+                window.location.reload();
+            });
+            
+            // Help panel
+            helpBtn.addEventListener('click', function() {
+                helpPanel.style.display = 'flex';
+            });
+            
+            closeHelpBtn.addEventListener('click', function() {
+                helpPanel.style.display = 'none';
+            });
+            
+            // Markers button
+            markersBtn.addEventListener('click', function() {
+                window.location.href = 'markers.html';
+            });
+            
+            // Track detected markers
+            const detectedMarkers = new Set();
+            
+            // Handle scene loaded
+            const scene = document.querySelector('a-scene');
+            scene.addEventListener('loaded', function() {
+                loader.style.display = 'none';
+                console.log('Scene loaded successfully');
+            });
+            
+            // Handle marker detection
+            const markers = document.querySelectorAll('a-marker');
+            markers.forEach(function(marker) {
+                marker.addEventListener('markerFound', function() {
+                    // Add to detected markers set
+                    detectedMarkers.add(marker.id);
+                    markersCountElement.textContent = detectedMarkers.size;
+                    
+                    console.log('Marker found:', marker.id);
+                    
+                    // Vibrate device for feedback (mobile only)
+                    if (navigator.vibrate) {
+                        navigator.vibrate(100);
+                    }
+                });
+                
+                marker.addEventListener('markerLost', function() {
+                    console.log('Marker lost:', marker.id);
+                });
+            });
+            
+            // Log initialization
+            console.log('AR Space Experience initialized');
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,3 @@
+# This is a placeholder for the camera parameters file
+# In a real application, you would use a proper camera calibration file
+# AR.js will use default parameters if this file is not found
