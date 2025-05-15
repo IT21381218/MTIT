@@ -157,14 +157,8 @@ document.addEventListener("DOMContentLoaded", () => {
       // Show the 3D model with animation
       const model = marker.querySelector(".model")
       if (model) {
-        // Get custom scale if defined, otherwise use default
-        let targetScale = "0.5 0.5 0.5"
-        
-        // Use smaller scale for models 1, 2, and 3
-        if (marker.id === "marker1" || marker.id === "marker2" || marker.id === "marker3") {
-          // Get custom scale from data attribute if available
-          targetScale = model.getAttribute("data-scale") || "0.1 0.1 0.1"
-        }
+        // Get custom scale from data attribute if available, otherwise use default
+        let targetScale = model.getAttribute("data-scale") || "0.5 0.5 0.5"
         
         // Apply scale animation
         model.setAttribute("animation", {
