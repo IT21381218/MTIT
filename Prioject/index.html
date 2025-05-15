@@ -119,7 +119,7 @@
         <!-- MARKER 1 - Sun -->
         <a-marker type="pattern" url="markers/pattern-marker1.patt" id="marker1" emitevents="true" smooth="true" smoothCount="5" smoothTolerance="0.01" smoothThreshold="2">
             <!-- Fallback shape if model doesn't load -->
-            <a-box position="0 0.5 0" color="red" scale="0.05 0.05 0.05" class="fallback"></a-box>
+            <a-box position="0 0.5 0" color="red" scale="0.00005 0.00005 0.00005" class="fallback"></a-box>
             <!-- 3D model -->
             <a-entity 
                 position="0 0 0"
@@ -139,7 +139,7 @@
             <a-entity 
                 position="0 0 0"
                 rotation="0 0 0"
-                scale="0 0 0"
+                scale="0.05 0.05 0.05"
                 gltf-model="#ship-model"
                 class="model"
                 sound="src: #song2; autoplay: false; loop: true; volume: 0.5;">
@@ -183,7 +183,7 @@
             <!-- 3D model -->
             <a-entity 
                 position="0 0 0"
-                rotation="0 180 0"
+                rotation="180 0 0"
                 scale="0 0 0"
                 gltf-model="#alien-model"
                 class="model"
