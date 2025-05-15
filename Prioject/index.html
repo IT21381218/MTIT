@@ -97,7 +97,6 @@
         <!-- Assets preloading -->
         <a-assets timeout="10000">
             <!-- 3D Models -->
-
             <a-asset-item id="sun-model" src="models/model 1 - sun.glb"></a-asset-item>
             <a-asset-item id="ship-model" src="models/model 2 - ship.glb"></a-asset-item>
             <a-asset-item id="station-model" src="models/model 3 - station.glb"></a-asset-item>
@@ -124,7 +123,8 @@
             <a-entity 
                 position="0 0 0"
                 rotation="0 0 0"
-                scale="0.0005 0.0005 0.0005"
+                scale="0 0 0"
+                data-scale="0.1 0.1 0.1"
                 gltf-model="#sun-model"
                 class="model"
                 sound="src: #song1; autoplay: false; loop: true; volume: 0.5;">
@@ -134,12 +134,13 @@
         <!-- MARKER 2 - Ship -->
         <a-marker type="pattern" url="markers/pattern-marker2.patt" id="marker2" emitevents="true" smooth="true" smoothCount="5" smoothTolerance="0.01" smoothThreshold="2">
             <!-- Fallback shape if model doesn't load -->
-            <a-sphere position="0 0.5 0" color="blue" scale="0.05 0.05 0.05" class="fallback"></a-sphere>
+            <a-sphere position="0 0.5 0" color="blue" scale="0 0 0" class="fallback"></a-sphere>
             <!-- 3D model -->
             <a-entity 
                 position="0 0 0"
                 rotation="0 0 0"
-                scale="0.05 0.05 0.05"
+                scale="0 0 0"
+                data-scale="0.1 0.1 0.1"
                 gltf-model="#ship-model"
                 class="model"
                 sound="src: #song2; autoplay: false; loop: true; volume: 0.5;">
@@ -155,6 +156,7 @@
                 position="0 0 0"
                 rotation="0 0 0"
                 scale="0 0 0"
+                data-scale="0.1 0.1 0.1"
                 gltf-model="#station-model"
                 class="model"
                 sound="src: #song3; autoplay: false; loop: true; volume: 0.5;">
@@ -168,7 +170,7 @@
             <!-- 3D model -->
             <a-entity 
                 position="0 0 0"
-                rotation="180 0 0"
+                rotation="0 0 0"
                 scale="0 0 0"
                 gltf-model="#astronaut-model"
                 class="model"
@@ -183,7 +185,7 @@
             <!-- 3D model -->
             <a-entity 
                 position="0 0 0"
-                rotation="180 0 0"
+                rotation="0 0 0"
                 scale="0 0 0"
                 gltf-model="#alien-model"
                 class="model"
