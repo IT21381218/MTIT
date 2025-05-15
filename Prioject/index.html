@@ -121,13 +121,15 @@
             <a-box position="0 0.5 0" color="red" scale="0 0 0" class="fallback"></a-box>
             <!-- 3D model -->
             <a-entity 
-                position="0 0 0"
+                position="0 0.5 0"
                 rotation="0 0 0"
                 scale="0 0 0"
                 data-scale="0.06 0.06 0.06"
                 gltf-model="#sun-model"
                 class="model"
-                sound="src: #song1; autoplay: false; loop: true; volume: 0.5;">
+                sound="src: #song1; autoplay: false; loop: true; volume: 0.5;"
+                animation__rotate="property: rotation; to: 0 360 0; loop: true; dur: 10000; easing: linear;"
+                animation__pulse="property: scale; from: 0.06 0.06 0.06; to: 0.07 0.07 0.07; dir: alternate; loop: true; dur: 2000; easing: easeInOutSine;">
             </a-entity>
         </a-marker>
         
@@ -137,13 +139,15 @@
             <a-sphere position="0 0.5 0" color="blue" scale="0 0 0" class="fallback"></a-sphere>
             <!-- 3D model -->
             <a-entity 
-                position="0 0 0"
+                position="0 0.5 0"
                 rotation="90 0 0"
                 scale="0 0 0"
-                data-scale="0.01 0.01 0.01"
+                data-scale="0.05 0.05 0.05"
                 gltf-model="#ship-model"
                 class="model"
-                sound="src: #song2; autoplay: false; loop: true; volume: 0.5;">
+                sound="src: #song2; autoplay: false; loop: true; volume: 0.5;"
+                animation__hover="property: position; from: 0 0.5 0; to: 0 0.7 0; dir: alternate; loop: true; dur: 2000; easing: easeInOutSine;"
+                animation__tilt="property: rotation; from: 90 0 0; to: 90 15 15; dir: alternate; loop: true; dur: 3000; easing: easeInOutQuad;">
             </a-entity>
         </a-marker>
         
@@ -153,13 +157,15 @@
             <a-sphere position="0 0.5 0" color="green" scale="0 0 0" class="fallback"></a-sphere>
             <!-- 3D model -->
             <a-entity 
-                position="0 0 0"
+                position="0 0.5 0"
                 rotation="0 0 0"
                 scale="0 0 0"
-                data-scale="0.05 0.05 0.05"
+                data-scale="0.01 0.01 0.01"
                 gltf-model="#station-model"
                 class="model"
-                sound="src: #song3; autoplay: false; loop: true; volume: 0.5;">
+                sound="src: #song3; autoplay: false; loop: true; volume: 0.5;"
+                animation__rotate="property: rotation; to: 0 360 0; loop: true; dur: 30000; easing: linear;"
+                animation__orbit="property: position; from: 0 0.5 0; to: 0 0.5 0; path: 0 0.5 0, -0.2 0.5 -0.2, 0 0.5 -0.3, 0.2 0.5 -0.2, 0 0.5 0; loop: true; dur: 10000;">
             </a-entity>
         </a-marker>
         
@@ -169,13 +175,15 @@
             <a-box position="0 0.5 0" color="yellow" scale="0 0 0" class="fallback"></a-box>
             <!-- 3D model -->
             <a-entity 
-                position="0 0 0"
+                position="0 0.5 0"
                 rotation="0 0 0"
                 scale="0 0 0"
-                data-scale="1 1 1"
+                data-scale="0.1 0.1 0.1"
                 gltf-model="#astronaut-model"
                 class="model"
-                sound="src: #song4; autoplay: false; loop: true; volume: 0.5;">
+                sound="src: #song4; autoplay: false; loop: true; volume: 0.5;"
+                animation__float="property: position; from: 0 0.5 0; to: 0 0.7 0; dir: alternate; loop: true; dur: 2000; easing: easeInOutSine;"
+                animation__rotate="property: rotation; from: 0 0 0; to: 0 360 0; loop: true; dur: 15000; easing: linear;">
             </a-entity>
         </a-marker>
 
@@ -185,13 +193,15 @@
             <a-box position="0 0.5 0" color="yellow" scale="0 0 0" class="fallback"></a-box>
             <!-- 3D model -->
             <a-entity 
-                position="0 0 0"
+                position="0 0.5 0"
                 rotation="0 0 0"
                 scale="0 0 0"
                 data-scale="0.2 0.2 0.2"
                 gltf-model="#alien-model"
                 class="model"
-                sound="src: #song5; autoplay: false; loop: true; volume: 0.5;">
+                sound="src: #song5; autoplay: false; loop: true; volume: 0.5;"
+                animation__bounce="property: position; from: 0 0.5 0; to: 0 0.6 0; dir: alternate; loop: true; dur: 1000; easing: easeInOutQuad;"
+                animation__spin="property: rotation; from: 0 0 0; to: 0 360 0; loop: true; dur: 8000; easing: linear;">
             </a-entity>
         </a-marker>
         
